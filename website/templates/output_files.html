@@ -1,0 +1,142 @@
+{%extends "base.html" %}
+
+{% block title%} Results Info - TXArray 12.5.2 {% endblock %}
+
+{% block content %}
+
+<h1> Results </h1>
+
+    <br><br/>
+
+    <table class="table table-hover table-dark">
+        <thead>
+            <tr>
+                <!-- Your Columns HERE -->
+                <th scope="col">Output Files</th>
+                <th scope="col">Last Modified Time</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            {% for files in files_list1 %}
+                <!-- Your rows inside the table HERE: -->
+                {% for file_name, date_time in files.items() %}
+                    <tr>
+                        <td>{{file_name}}</td>
+                        <td>{{date_time}}</td>
+                    </tr>
+                {% endfor %}     
+            {% endfor%}
+        </tbody>
+    </table>
+
+    <br><br/>
+    <br><br/>
+
+    <p>Optimisation run completed ...</p>
+    <br><br/>
+    <p>Result folder is ready for download</p> 
+    <br><br/>
+
+    <form action = "/{{cust_name}}/download/{{cust_codenum}}" method = "post">
+        <button class="button download">Download Results</button>
+    </form> 
+
+    <p></p>
+
+    <br><br/>
+    <br><br/>
+
+    <form action = "/{{cust_name}}/{{cust_codenum}}">
+        <button class="button upload">Upload New File</button>
+    </form> 
+    
+{% endblock %}
+
+
+
+<!-- 
+<html> 
+   <head> 
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <title>Results Info</title>
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+   </head> 
+
+   <body> 
+       <h1> Results </h1>
+
+       <br><br/>
+
+        <table class="table table-hover table-dark">
+            <thead>
+                <tr>
+                    
+                    <th scope="col">Output Files</th>
+                    <th scope="col">Last Modified Time</th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                {% for files in files_list1 %}
+                    
+                    {% for file_name, date_time in files.items() %}
+                        <tr>
+                            <td>{{file_name}}</td>
+                            <td>{{date_time}}</td>
+                        </tr>
+                    {% endfor %}     
+                {% endfor%}
+            </tbody>
+        </table>
+
+        <br><br/>
+        <br><br/>
+
+        <p>Optimisation run completed ...</p>
+        <br><br/>
+        <p>Result folder is ready for download</p> 
+        <br><br/>
+
+        <form action = "/{{cust_name}}/download/{{cust_codenum}}" method = "post">
+            <button class="button download">Download Results</button>
+        </form> 
+
+        <p></p>
+
+        <br><br/>
+        <br><br/>
+
+        <form action = "/{{cust_name}}/{{cust_codenum}}">
+            <button class="button upload">Upload New File</button>
+        </form> 
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+   </body> 
+   <style>
+        p{
+            font-size: 30px;
+        } 
+        body{
+         background-color: #87CEEB;
+         color: olive;
+        }
+        .download{
+         background-color: #859e09;
+         font-size: 30px;
+         margin-left: 15px;
+         font-weight: bold;
+         border-radius: 5px;
+         cursor: pointer;
+        } 
+        .upload{
+         background-color: #1d6147;
+         font-size: 30px;
+         margin-left: 15px;
+         font-weight: bold;
+         border-radius: 5px;
+         cursor: pointer;
+        } 
+   </style>
+</html> -->

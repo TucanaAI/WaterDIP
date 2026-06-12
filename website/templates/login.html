@@ -1,0 +1,42 @@
+{%extends "base.html" %}
+
+{% block title%} Login - TXArray 12.5.2 {% endblock %}
+
+{% block content %}
+   <br/>
+   <h3 style='color: rgb(205, 123, 32)'> Hello Windfarm Developer, thank you for visiting TXArray 12.5.2</h3>
+
+   <br />
+   <h4 style='color: rgb(61, 138, 34)'> Do you need TXArray to get the most out of your optimisation design? </h4>
+   <br />
+   <br />
+   <h4 style='color: rgb(205, 123, 32)' >Please Login!</h4>
+   <form method="POST"> 
+    <br/>
+    <div class="form-group">
+        <label for="userName">Username</label>
+        <input
+            type="text"
+            class="form-control"
+            id="userName"
+            name="userName"
+            placeholder="Enter Username"
+        />
+    </div>
+    <br/>
+    <div class="form-group">
+        <label for="password">Password</label>
+        <input
+            type="password"
+            class="form-control"
+            id="password"
+            name="password"
+            placeholder="Enter password"
+        />
+        <br>
+        <a class="nav-link" href="/{{cust_name}}/{{cust_codenum}}/forgot-password">forgot your password</a>
+    </div>
+    <br />
+    <button type="submit" class="btn btn-primary">Enter TXArray</button>
+   </form>
+{% endblock %}

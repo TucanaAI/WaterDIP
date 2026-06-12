@@ -1,0 +1,55 @@
+{%extends "base.html" %}
+
+{% block title%} Registered Users - TXArray 12.5.2 {% endblock %}
+
+{% block content %}
+
+<div class="content">
+    
+    {% for user in registered_users %}
+        
+        <div class="user">
+            <b>#{{ user.id }}</b>
+            <p></p>
+            <b>{{ user.username }}</b>
+            <p></p>
+            <b>{{ user.email }}</b>
+            <p></p>
+            <b>
+                <b class="name">{{ user.first_name }} {{ user.last_name }} </b>
+            </b>
+            <p></p>
+
+            {%if user.is_admin%}
+                <b>Admin</b> 
+                <form id="removalForm" action = "/{{cust_name}}/{{cust_codenum}}/remove_admin/{{user.id}}" method = "post">
+                    <input type="hidden" id="removeAdmin" name="removeAdmin">
+                        <button class="button Remove_Admin">Remove Admin Rights</button>
+                            
+                </form> 
+                    
+            {%else%}
+
+                <b>Not an Admin</b> 
+                <form action = "/{{cust_name}}/{{cust_codenum}}/make_admin/{{user.id}}" method = "post">
+                    <input type="hidden" id="makeAdmin" name="makeAdmin">                 
+                        <button class="button Make_Admin">Make Admin</button> 
+                </form> 
+            {%endif%}
+            <br>
+            <br>
+                <form id="deletionForm" action = "/{{cust_name}}/{{cust_codenum}}/delete_user/{{user.id}}" method = "post">
+                    <input type="hidden" id="deleteUser" name="deleteUser">
+                        <button class="button Delete_User">Delete User</button>
+                            
+                </form> 
+            <br>
+            <br>
+        </div>     
+    {% endfor%}
+</div>
+
+<script>
+
+</script>
+{% endblock %}

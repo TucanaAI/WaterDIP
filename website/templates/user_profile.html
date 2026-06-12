@@ -1,0 +1,31 @@
+{%extends "base.html" %}
+
+{% block title%} Profile - TXArray 12.5.2 {% endblock %}
+
+{% block content %}
+
+<div class="content">
+    
+    <div class="user">
+        <!-- <b>#{{ user.id }}</b> -->
+        <b>Profile</b>
+        <p></p>
+        <b>{{ user.username }}</b>
+        <p></p>
+        <b>{{ user.email }}</b>
+        <p></p>
+        <b>
+            <b class="name">{{ user.first_name }} {{ user.last_name }} </b>
+        </b>
+        <p></p>
+        <br>
+        <br>
+        <a class="nav-link" href="/{{cust_name}}/{{cust_codenum}}/user_profile/{{ user.id }}"> password change</a>
+    </div>     
+    
+</div>
+
+<script>
+
+</script>
+{% endblock %}

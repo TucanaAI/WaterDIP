@@ -1,0 +1,116 @@
+{%extends "base.html" %}
+
+{% block title%} Signup - LLM {% endblock %}
+
+{% block content %}
+   <br />
+   <h3 style='color: rgb(205, 123, 32)'> Hello user, thank you for visiting my LLM microservice</h3>
+
+   <br />
+   <h4 style='color: rgb(61, 138, 34)'> To explore the exciting capabilities of other LLM advanced services, please sign up below...</h4>
+   <br />
+   <br />
+   <h4 style='color: rgb(205, 123, 32)' >Please signup (or add a user)!</h4>
+   <br/>
+   <form method="POST">
+    <div class="form-group">
+        <label for="userName">Username</label>
+        <input
+            type="text"
+            class="form-control"
+            id="userName"
+            name="userName"
+            placeholder="Enter Username"
+        />
+    </div>
+    <br>
+    <div class="form-group">
+        <label for="email">Email address</label>
+        <input
+            type="email"
+            class="form-control"
+            id="email"
+            name="email"
+            placeholder="Enter email"
+        />
+    </div>
+    <br>
+    <div class="form-group">
+        <label for="firstName">First Name</label>
+        <input
+            type="text"
+            class="form-control"
+            id="firstName"
+            name="firstName"
+            placeholder="Enter first name"
+        />
+    </div>
+    <br>
+    <div class="form-group">
+        <label for="lastName">Last Name</label>
+        <input
+            type="text"
+            class="form-control"
+            id="lastName"
+            name="lastName"
+            placeholder="Enter last name"
+        />
+    </div>
+    <br>
+    <div class="form-group">
+        <label for="password1">Password</label>
+        <input
+            type="password"
+            class="form-control"
+            id="password1"
+            name="password1"
+            placeholder="Enter password"
+        />
+    </div>
+    <br>
+    <div class="form-group">
+        <label for="password2">Password (Confirm)</label>
+        <input
+            type="password"
+            class="form-control"
+            id="password2"
+            name="password2"
+            placeholder="Confirm password"
+        />
+    </div>
+    <br>
+    <!-- <div class="form-group">
+        <label for="address">address</label>
+        <input
+            type="text"
+            class="form-control"
+            id="address"
+            name="address"
+            placeholder="Enter your address ..."
+        />
+    </div>
+    <br> -->
+
+    
+    <b> Is this user an Admin? </b>
+    
+    <input
+        type="radio"
+        id="no"
+        name="is_admin"
+        value="No"
+    >
+    <label for="no">No</label>
+
+    <input
+        type="radio"
+        id="yes"
+        name="is_admin"
+        value="Yes"
+    >
+    <label for="yes">Yes</label>
+    <br />
+    <br />
+    <button type="submit" class="btn btn-primary">Join</button>
+   </form>
+{% endblock %}

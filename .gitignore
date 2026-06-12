@@ -1,0 +1,26 @@
+# Virtual environments
+flask-venv/
+.venv/
+venv/
+
+# Python cache
+__pycache__/
+website/__pycache__/
+*.py[cod]
+
+# VS Code
+.vscode/
+website/.vscode/
+
+# Environment variables
+.env
+
+# Databases
+*.db
+
+# Test reports
+reports/
+
+# OS files
+.DS_Store
+Thumbs.db

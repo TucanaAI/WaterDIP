@@ -1,0 +1,275 @@
+<html>   
+  <head>  
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>{% block title %}LLM 1.0{% endblock %}</title>   
+    <link rel="shortcut icon" href="{{ url_for('static', filename='harry.ico') }}">
+    
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        .alert {
+            font-size: 60px;
+            color: #1a1818;
+            background-color: #15c423;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .alert-success {
+            background-color: #d4edda;  /* Light green for success messages */
+            color: #155724;
+        }
+
+        .alert-danger {
+            background-color: #f45428;  /* Light pink for error messages */
+            color: #155724;
+        }
+
+        .alert-info {
+            background-color: #d1ecf1;  /* Light blue for info messages */
+            color: #0c5460;
+        }
+
+        .alert-warning {
+            background-color: #fff3cd;  /* Light yellow for warnings */
+            color: #856404;
+        }
+    </style>
+  </head>   
+
+  <body>   
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark"> <!--Navigation Bar-->
+      <a class="navbar-brand" href="#">LLMs!</a> 
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+          <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarNav">
+
+      </div>
+      <div class="collapse navbar-collapse" id="navbarNav"> <!--divisions tag-->
+        <ul class="navbar-nav mr-auto"> <!--unordered list tag-->
+            {%if user.is_authenticated%} <!--Home Page should show up on the tabs, only if user is logged in-->
+                <li class="nav-item active"> <!--list item tag-->
+                    <a class="nav-link" href="/{{cust_name}}/{{cust_codenum}}">LLM-Home <span class="sr-only">(current)</span></a>
+                </li>
+            {%endif%}
+
+            <li class="nav-item active"> <!--list item tag-->
+                <a class="nav-link" href="/{{cust_name}}/{{cust_codenum}}/about">About</a>
+            </li>
+
+            <li class="nav-item active"> <!--list item tag-->
+                <a class="nav-link" href="/{{cust_name}}/{{cust_codenum}}/get_help">Get-Help</a>
+            </li>
+
+            <li class="nav-item active"> <!--list item tag-->
+                <a class="nav-link" href="/{{cust_name}}/{{cust_codenum}}/training_and_consultancy">Training-and-Consultancy</a>
+            </li>
+
+            <li class="nav-item active"> <!--list item tag-->
+                <a class="nav-link" href="/{{cust_name}}/{{cust_codenum}}/community">Community</a>
+            </li>
+
+            <li class="nav-item active"> <!--list item tag-->
+                <a class="nav-link" href="/{{cust_name}}/{{cust_codenum}}/events">Events</a>
+            </li>
+        </ul>
+      </div>
+
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav mr-auto">
+            {%if user.is_authenticated and user.is_admin%}
+                <a class="nav-link" href="/{{cust_name}}/{{cust_codenum}}/user_profile"> Hi {{ user.first_name }}!</a>
+                <li class="nav-item">
+                    <a class="nav-link" href="/{{cust_name}}/{{cust_codenum}}/logout">Logout</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/{{cust_name}}/{{cust_codenum}}/sign-up">Add-User</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/{{cust_name}}/{{cust_codenum}}/users-list">Users</a>
+                </li>
+            {%elif user.is_authenticated %}
+                <a class="nav-link" href="/{{cust_name}}/{{cust_codenum}}/user_profile"> Hi {{ user.first_name }}!</a>
+                <li class="nav-item">
+                    <a class="nav-link" href="/{{cust_name}}/{{cust_codenum}}/logout">Logout</a>
+                </li>
+                {%if user_size == 1%}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/{{cust_name}}/{{cust_codenum}}/sign-up">Add-User</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/{{cust_name}}/{{cust_codenum}}/users-list">Users</a>
+                    </li>
+                {%endif%}
+            {%else%}
+
+                {%if user_size > 0 and not url_path == url_for('views.notmain')%}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/{{cust_name}}/{{cust_codenum}}/login">Login</a>
+                    </li>
+                {%endif%}
+
+                {%if user.is_admin or user_size == 0%}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/{{cust_name}}/{{cust_codenum}}/sign-up">Sign-up</a>
+                    </li>
+                {%endif%}
+            {%endif%}
+        </ul>
+      </div>
+    </nav>
+
+    <div class="container">
+        {%with messages = get_flashed_messages(with_categories=true)%}
+            {%if messages %}
+                {%for category, message in messages%}
+                    {%if category == 'error' %}
+                        <div class="alert alert-danger alert-dismissable fade show" role="alert">
+                            {{message}}
+                            <button type="button" class="close" data-dismiss="alert", aria-label="close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {%else%}
+                        <div class="alert alert-success alert-dismissable fade show" role="alert">
+                            {{message}}
+                            <button type="button" class="close" data-dismiss="alert", aria-label="close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {%endif%}
+                {%endfor%}
+            {%endif%}
+        {%endwith%}
+        <br></br>
+        {% block content %}{% endblock %}
+        <br></br>
+        <br></br>
+        <b><em>Harrison's webpage is proprietary</em> </b>
+        <br></br>
+        <em>Copyright - 2026</em>
+
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>   
+
+<style>
+
+    #userName{
+        width: 40%;
+    }
+
+    #password{
+        width: 40%;
+    }
+
+    #email{
+        width: 40%;
+    }
+
+    #firstName{
+        width: 40%;
+    }
+
+    #lastName{
+        width: 40%;
+    }
+
+    #password1{
+        width: 40%;
+    }
+
+    #password2{
+        width: 40%;
+    }
+
+    #new_password1{
+        width: 40%;
+    }
+
+    #new_password2{
+        width: 40%;
+    }
+
+    #note{
+        width: 40%;
+    }
+
+    .table{
+        width: 40%;
+    }
+
+    .ok{
+        font-size: 30px;
+    }
+    .op{
+        font-size: 30px;
+        font-weight: bold;
+        background-color: yellow;
+        border-radius: 5px;
+        cursor: pointer;
+    }   
+    p{    
+        font-size: 20px;
+    } 
+    em{
+        font-size: 20px;
+    }
+    
+    .content{
+        margin: 5px;
+        width: 60%;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    .user{
+        flex: 20%;
+        padding: 10px;
+        margin: 5px;
+        background-color: #f3f3f3;
+        inline-size: 100%;
+    }
+    body{
+        background-color: #87CEEB;
+        color: rgb(15, 15, 13);
+    }
+    .cancel_job{
+        background-color: #e98466;
+        font-size: 30px;
+        margin-left: 15px;
+        font-weight: bold;
+        border-radius: 5px;
+        cursor: pointer;
+    } 
+    .refresh{
+        background-color: #859e09;
+        font-size: 30px;
+        margin-left: 15px;
+        font-weight: bold;
+        border-radius: 5px;
+        cursor: pointer;
+    } 
+    .download{
+        background-color: #859e09;
+        font-size: 30px;
+        margin-left: 15px;
+        font-weight: bold;
+        border-radius: 5px;
+        cursor: pointer;
+    } 
+    .upload{
+        background-color: #1d6147;
+        font-size: 30px;
+        margin-left: 15px;
+        font-weight: bold;
+        border-radius: 5px;
+        cursor: pointer;
+    } 
+</style>
+</html>

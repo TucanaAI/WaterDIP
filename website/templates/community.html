@@ -1,0 +1,30 @@
+{%extends "base.html" %}
+
+{% block title %} Community - LLM {% endblock %}
+
+{% block content %}
+    <h1> Welcome to my LLM user community.</h1>
+    <br/>
+    <p> Here you are welcome to share your insights, observations and areas of extensions you would like me to explore on the LLM microservice...</p>
+    <br></br>
+    <h1 class="center">Notes</h1>
+    <ul class="list-group list-group-flush" id="notes">
+        {%for note in user.notes%}
+        <li class="list-group-item">{{note.data}}</li>
+        {% endfor%}
+    </ul>
+    <form method="POST">
+        <textarea name="note" id="note" class="form-control"></textarea>
+        <br/>
+
+        <div>
+            <button type="submit" class="btn btn-primary">Add Note</button>
+        </div>
+    </form>
+
+    <br/>
+    <br/>
+    <p> Alternatively, you can send an email to harrisonobidinnu@gmail.com</p>
+    <br/>
+    <h5> To view  and interact with a plugged-in OpenAI LLM application, click <a href="{{ url_for('views.demo') }}">here</a></h5>
+{% endblock %}

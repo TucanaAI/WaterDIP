@@ -1,0 +1,24 @@
+{%extends "base.html" %}
+
+{% block title%} Portfolio - Jude-Harrison {% endblock %}
+
+
+{% block content %}
+    <div class="content">
+
+
+        <h1> Hi there, thanks for visiting my career page.</h1> 
+        <br><br/>
+
+        <p> I'm Harrison, a senior software & machine learning engineer with eight years of experience including three years specializing in applied Machine learning and Generative AI Platform Engineering.</p> 
+        <br/>
+
+        <p> I am passionate about developing generative AI systems, large language model (LLM) training, and MLOPs infrastructure for production-grade deployment.</p> 
+
+        <p> I have designed and deployed a production-grade FastAPI microservice powering text generations, embeddings, and integrating LLM provider models into the API enabling streaming responses.</p>
+
+        <h5> To view  and interact with a plugged-in OpenAI LLM application, click <a href="{{ url_for('views.demo') }}">here</a></h5> 
+
+        <p> In the near future, a demo of distributed GPU vLLM servings / KServe deployments will also be hosted</p> 
+    </div>
+{% endblock %}

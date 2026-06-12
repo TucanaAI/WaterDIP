@@ -1,0 +1,129 @@
+{%extends "base.html" %}
+
+{% block title%} Upload Success - TXArray 12.5.2 {% endblock %}
+
+{% block content %}
+   <h1>File Names</h1> 
+   <br><br/>
+
+   <table class="table table-hover table-dark">
+      <thead>
+         <tr>
+         <!-- Your Columns HERE -->
+         <th scope="col">Uploaded Files</th>
+         </tr>
+      </thead>
+      <tbody> 
+         <!-- Your rows inside the table HERE: -->
+         {% for file in files %}
+            <tr>
+                  <td>{{file.filename}}</td>
+            </tr>
+         {% endfor %}     
+      </tbody>
+   </table>
+   <br><br/>
+
+   <p>Files uploaded successfully</p> 
+   <br><br/>
+   <br><br/>  
+
+   <p>Started running TXArray Optimisation in background. Please wait ...</p>
+
+   <br><br/>
+   <br><br/>
+
+   <form action = "/{{cust_name}}/success/running/current_files/{{cust_codenum}}" method = "post">
+      <button class="button refresh">Refresh</button>
+   </form> 
+
+   <!--introduced for cancel job-->
+   <br> <br/>
+   <br> <br/>
+
+   <form action = "/{{cust_name}}/success/running/current_files/{{cust_codenum}}/stop_job" method = "post">
+      <input type="hidden" id="userInput" name="userInput">
+      <button class="button cancel_job" onclick="confirmCancel('{{ should_stop }}')">Cancel Jobs</button>
+   </form> 
+   <script>
+      function confirmCancel(elem) {
+         if(confirm('Confirm okay to terminate jobs') == true) {
+         
+         document.getElementById("userInput").value = "True";
+         // alert("Terminating Job...: " + elem); 
+         }
+         else { 
+         document.getElementById("userInput").value = "False";
+         }          
+      }
+   </script>
+{% endblock %}
+
+
+
+
+
+
+<!-- 
+<html> 
+   <head> 
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <title>Upload Successful</title> 
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"> 
+   </head> 
+   
+   <body>
+      <nav class="navbar navbar-expand-md navbar-dark bg-dark"> 
+         
+         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+             <span class="navbar-toggler-icon"></span>
+         </button>
+         <div class="collapse navbar-collapse" id="navbarNav"> 
+            <ul class="navbar-nav mr-auto"> 
+               <li class="nav-item active"> 
+                  <a class="nav-link" href="/home">Home <span class="sr-only">(current)</span></a>
+               </li>
+               <li class="nav-item">
+                  <a class="nav-link" href="#">View Results</a>
+               </li>
+            </ul>
+            <ul class="navbar-nav"> 
+               <li class="nav-item"> 
+                  <a class="nav-link" href="#">Login</a>
+               </li>
+               <li class="nav-item">
+                  <a class="nav-link" href="#">Register</a>
+               </li>
+            </ul>
+         </div>
+     </nav> 
+
+      
+   </body> 
+   <style>
+      p {    
+         font-size: 30px;
+      } 
+      body{
+         background-color: #87CEEB;
+         color: olive;
+      }
+      .cancel_job{
+         background-color: #e98466;
+         font-size: 30px;
+         margin-left: 15px;
+         font-weight: bold;
+         border-radius: 5px;
+         cursor: pointer;
+      } 
+      .refresh{
+         background-color: #859e09;
+         font-size: 30px;
+         margin-left: 15px;
+         font-weight: bold;
+         border-radius: 5px;
+         cursor: pointer;
+      } 
+   </style>
+</html> -->

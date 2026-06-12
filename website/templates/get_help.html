@@ -1,0 +1,15 @@
+{%extends "base.html" %}
+
+{% block title %} Get help - LLMs {% endblock %}
+
+{% block content %}
+    <h1>How to use the LLM microservice</h1>
+    <br></br>
+    <p>Start typing into the prompt section, and click the send button when you are done</p>
+    <br></br>
+    <p>A response would appear in the response-block section</p>
+    <br></br>
+    <h5> To view  and interact with a plugged-in OpenAI LLM application, click <a href="{{ url_for('views.demo') }}">here</a></h5>
+    <br/>
+    <h5> If you require further enquiries, please contact harrisonobidinnu@gmail.com.</h5>
+{% endblock %}

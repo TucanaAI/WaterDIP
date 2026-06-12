@@ -1,0 +1,61 @@
+{%extends "base.html" %}
+
+{% block title%} Not Ready - LLM {% endblock %}
+
+{% block content %}
+    
+    <p> Website is not ready for prompt queries as your streaming responses are not yet complete </p> 
+
+    <br><br/>
+
+    <p>If you believe that the simulation being run or awaiting download is yours...</p>
+    <br><br/>
+
+    <a href="/{{cust_name}}/success/running/current_response/{{cust_codenum}}"> click here to view currently generated response ...</a> 
+{% endblock %}
+
+
+
+
+
+
+
+<!-- This html code is not being used at the moment...
+<html> 
+    <head> 
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>TXArray Not Ready</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    </head> 
+
+    <body> 
+
+        <br><br/>
+
+        <p> Website is not ready for upload as it either being used somewhere else or your results have not yet been downloaded.</p> 
+
+        <br><br/>
+
+        <p>If you believe that the simulation being run or awaiting download is yours...</p>
+        <br><br/>
+        
+        <a href="/{{cust_name}}/success/running/current_files/{{cust_codenum}}"> click here to view currently generated files ...</a> 
+        
+        
+        <br><br/>
+
+            
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    </body> 
+    <style>
+        p {    
+         font-size: 30px;
+        } 
+        
+        body{
+        background-color: #87CEEB;
+        color: olive;
+        }
+    </style>
+</html> -->

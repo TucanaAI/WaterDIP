@@ -1,0 +1,25 @@
+{%extends "base.html" %}
+
+{% block title%} Home - TXArray 12.5.2 {% endblock %}
+
+{% block content %}
+    <h1>Welcome to TXArray 12.5.2 ...</h1> 
+
+    <br></br>
+
+    <b><em> The most advanced Windfarm Optimisation Software  </em></b>
+
+    <br></br>
+    <br></br>
+
+    <h5>Please upload your Windfarm Data Templates ... </h5>
+
+
+    <form action = "/{{cust_name}}/success{{cust_codenum}}" method = "post" enctype="multipart/form-data"> 
+    <label for="files">Select Files:</label>  
+    <br></br>
+    <input class="ok" type="file" id = "files" name="files" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" multiple>   
+    <br></br>
+    <input class="op" type= "submit" name= "submit_button" value="Upload Field Data">   
+    </form>   
+{% endblock %}

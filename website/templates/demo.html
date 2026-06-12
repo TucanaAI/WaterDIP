@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %} Portfolio - LLM demo {% endblock %}
+
+{% block content %}
+<div class="llm-shell">
+    <div class="llm-card">
+
+        <div class="llm-header">
+            <h1>Welcome to an integrated OpenAI LLM prompt microservice ...</h1>
+
+            <b><em>Developed for high throughput asynchronous API model inference</em></b><br>
+            <b><em>Validated using a load test of 1000 httpx call requests across 50 concurrent async clients</em></b>
+
+            <h5>Ready to Chat? What can I help you with?...</h5>
+        </div>
+
+        <div class="response-label">Response</div>
+        <div class="response-box">
+            {{ llm_response if llm_response else "LLM responses will appear here..." }}
+        </div>
+
+        <form method="POST">
+            <div class="prompt-label">Prompt</div>
+            <textarea
+                class="prompt-box"
+                name="prompt"
+                placeholder="Enter your prompt here..."></textarea>
+
+            <div class="send-row">
+                <button class="send-btn" type="submit">Send</button>
+            </div>
+        </form>
+
+    </div>
+</div>
+{% endblock %}
