@@ -31,7 +31,7 @@ PS C:\Users\Harrison.Obidinnu\WaterDIP\genai-microservice> .venv\Scripts\activat
 
 - While the backend process is active, spawn up a new shell process (which starts again at the project root) for the Flask Frontend.
 
-- Confirm that .venv is deactivated (if shell is configured to activate at startup by default)
+- Confirm that .venv is deactivated (if shell is configured to activate at start-up by default)
 
 ```powershell
 (.venv) PS C:\Users\Harrison.Obidinnu\WaterDIP> deactivate
