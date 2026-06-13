@@ -3,7 +3,7 @@ from __future__ import annotations
 import time
 from typing import Final
 
-from fastapi import FastAPI, HTTPException, Response
+from fastapi import FastAPI, HTTPException, Response, Request
 from prometheus_client import Counter, Histogram, generate_latest, CONTENT_TYPE_LATEST
 from starlette.responses import PlainTextResponse
 
@@ -19,23 +19,6 @@ LATENCY_MS:    Final = Histogram("request_latency_ms", "Request latency in ms", 
                                  buckets=(5,10,25,50,100,250,500,1000))
 
 app = FastAPI(title="GenAI Microservice", version="1.0.0")
-
-# #connect to different (crossing) origin location backend (https://api.harrisonobidinnu.com)
-# from fastapi.middleware.cors import CORSMiddleware
-
-# ALLOWED_ORIGINS = [
-#     "https://harrisonobidinnu.com",
-#     "https://www.harrisonobidinnu.com",
-#     # add "http://localhost:5173" only if you dev from Vite locally
-# ]
-
-# app.add_middleware(
-#     CORSMiddleware,
-#     allow_origins=ALLOWED_ORIGINS,
-#     allow_credentials=False,      # keep False unless you use cookies
-#     allow_methods=["*"],
-#     allow_headers=["*"],
-# )
 
 print("provider setttings is \n")
 print(settings.llm_provider)
@@ -74,17 +57,56 @@ async def healthz_head() -> Response:
     return Response(status_code=200)
 
 @app.post("/chat", response_model=ChatResponse)
-async def chat(req: ChatRequest) -> ChatResponse:
+async def chat(req: ChatRequest, request: Request) -> ChatResponse:
     t0 = time.perf_counter()
     code = "200"
+
+    # Measure click -> server receive latency
+    client_submit_started_at_ms = request.headers.get(
+        "x-client-submit-started-at-ms"
+    )
+
+    if client_submit_started_at_ms:
+        try:
+            server_received_at_ms = int(time.time() * 1000)
+
+            submit_to_server_ms = (
+                server_received_at_ms
+                - int(client_submit_started_at_ms)
+            )
+
+            print(
+                f"Submit -> Server Receive Latency: "
+                f"{submit_to_server_ms} ms"
+            )
+        except ValueError:
+            pass
+
     try:
         _validate_chat(req)
+
         if settings.llm_provider == "openai":
             assert _provider is not None
-            text = await _provider.generate_chat(req.prompt, req.max_tokens)
+
+            provider_t0 = time.perf_counter()
+
+            text = await _provider.generate_chat(
+                req.prompt,
+                req.max_tokens
+            )
+
+            provider_latency_ms = (
+                time.perf_counter() - provider_t0
+            ) * 1000.0
+
+            print(
+                f"OpenAI Provider Latency: "
+                f"{provider_latency_ms:.2f} ms"
+            )
+
             model_name = _provider_model
+
         else:
-            # dummy echo
             text = req.prompt[: req.max_tokens]
             model_name = settings.model_name
 
@@ -94,12 +116,32 @@ async def chat(req: ChatRequest) -> ChatResponse:
             output_tokens=req.max_tokens,
             model=model_name,
         )
+
     except HTTPException as e:
         code = str(e.status_code)
         raise
+
     finally:
-        LATENCY_MS.labels("/chat", "POST").observe((time.perf_counter() - t0) * 1000.0)
-        REQUESTS_TOTAL.labels("/chat", "POST", code).inc()
+        total_latency_ms = (
+            time.perf_counter() - t0
+        ) * 1000.0
+
+        print(
+            f"Total Server Latency: "
+            f"{total_latency_ms:.2f} ms"
+        )
+
+        LATENCY_MS.labels(
+            "/chat",
+            "POST"
+        ).observe(total_latency_ms)
+
+        REQUESTS_TOTAL.labels(
+            "/chat",
+            "POST",
+            code
+        ).inc()
+
 
 @app.post("/embed", response_model=EmbedResponse)
 async def embed(req: EmbedRequest) -> EmbedResponse:
