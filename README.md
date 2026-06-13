@@ -22,7 +22,7 @@ PS C:\Users\Harrison.Obidinnu\WaterDIP> cd genai-microservice
 ```
 
 ```powershell
-PS C:\Users\Harrison.Obidinnu\WaterDIP\genai-microservice> .venv\Scripts\activate.
+PS C:\Users\Harrison.Obidinnu\WaterDIP\genai-microservice> .venv\Scripts\activate
 (.venv) PS C:\Users\Harrison.Obidinnu\WaterDIP\genai-microservice> uvicorn app.main:app --reload --host 127.0.0.1 --port 8080    
 ```
 
