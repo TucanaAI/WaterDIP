@@ -15,6 +15,13 @@ website/.vscode/
 # Environment variables
 .env
 
+#Old Python files
+genai-microservice/app/old_main.py
+
+# Old HTML files
+website/templates/demo_backup.html
+
+
 # Databases
 *.db
 

@@ -20,17 +20,44 @@
             {{ llm_response if llm_response else "LLM responses will appear here..." }}
         </div>
 
-        <form method="POST">
+        <form method="POST" id="prompt-form">
+
+            <!-- This stores the time when the user clicks Send -->
+            <input
+                type="hidden"
+                name="client_submit_started_at_ms"
+                id="client-submit-started-at-ms">
+
             <div class="prompt-label">Prompt</div>
+
             <textarea
                 class="prompt-box"
                 name="prompt"
-                placeholder="Enter your prompt here..."></textarea>
+                placeholder="Enter your prompt here..."
+                required></textarea>
 
             <div class="send-row">
-                <button class="send-btn" type="submit">Send</button>
+                <button class="send-btn" type="submit" id="send-button">
+                    Send
+                </button>
             </div>
+
         </form>
+
+        <script>
+            const form = document.getElementById("prompt-form");
+            const startedAtInput = document.getElementById("client-submit-started-at-ms");
+            const sendButton = document.getElementById("send-button");
+
+            form.addEventListener("submit", function () {
+                // Save the current browser time in milliseconds
+                startedAtInput.value = Date.now().toString();
+
+                // Give the user instant feedback
+                sendButton.disabled = true;
+                sendButton.textContent = "Sending...";
+            });
+        </script>
 
     </div>
 </div>
