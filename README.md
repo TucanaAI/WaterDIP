@@ -15,11 +15,13 @@ An end-to-end ML Platform Assistant designed to support production analytics, de
 
 ### Start the Application
 
-Navigate to the project root directory:
+- Navigate to the project root directory (WaterDIP), then change directory to the FAST-API backend directory.
 
 ```powershell
 PS C:\Users\Harrison.Obidinnu\WaterDIP> cd genai-microservice
 ```
+
+- Activate the backend directory and start-up a new FAST-API backend process:
 
 ```powershell
 PS C:\Users\Harrison.Obidinnu\WaterDIP\genai-microservice> .venv\Scripts\activate
@@ -27,12 +29,17 @@ PS C:\Users\Harrison.Obidinnu\WaterDIP\genai-microservice> .venv\Scripts\activat
 ```
 
 
-- Spawn up a new shell process (which starts again at the project root) for the Flask Frontend.
-- Confirm that .venv is deactivated
-- Start the flask application from the shell:
+- While the backend process is active, spawn up a new shell process (which starts again at the project root) for the Flask Frontend.
+
+- Confirm that .venv is deactivated (if shell is configured to activate at startup by default)
 
 ```powershell
 (.venv) PS C:\Users\Harrison.Obidinnu\WaterDIP> deactivate
+```
+
+- Start the flask application from the shell:
+
+```powershell
 PS C:\Users\Harrison.Obidinnu\WaterDIP> python llm.py
 ```
 
