@@ -27,9 +27,9 @@ PS C:\Users\Harrison.Obidinnu\WaterDIP\genai-microservice> .venv\Scripts\activat
 ```
 
 
-Spawn up a new shell process (which starts again at the project root) for the Flask Frontend
-Confirm that .venv is deactivated
-Start the flask application from the shell:
+- Spawn up a new shell process (which starts again at the project root) for the Flask Frontend.
+- Confirm that .venv is deactivated
+- Start the flask application from the shell:
 
 ```powershell
 (.venv) PS C:\Users\Harrison.Obidinnu\WaterDIP> deactivate
