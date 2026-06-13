@@ -4,6 +4,10 @@ import time
 from typing import Final
 
 from fastapi import FastAPI, HTTPException, Response, Request
+
+#allows Flask origin:   http://127.0.0.1:5000 & FastAPI API origin:  http://127.0.0.1:8080 share resource
+from fastapi.middleware.cors import CORSMiddleware 
+
 from prometheus_client import Counter, Histogram, generate_latest, CONTENT_TYPE_LATEST
 from starlette.responses import PlainTextResponse
 
@@ -19,6 +23,17 @@ LATENCY_MS:    Final = Histogram("request_latency_ms", "Request latency in ms", 
                                  buckets=(5,10,25,50,100,250,500,1000))
 
 app = FastAPI(title="GenAI Microservice", version="1.0.0")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://127.0.0.1:5000", #Fast API backend (:8080), allows dev machine Flask frontend (:5000) to make requests
+        "http://localhost:5000", #Fast API backend (:8080), allows server machine Flask frontend (:5000) to make requests
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 print("provider setttings is \n")
 print(settings.llm_provider)

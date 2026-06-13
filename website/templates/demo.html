@@ -16,23 +16,19 @@
         </div>
 
         <div class="response-label">Response</div>
-        <div class="response-box">
+
+        <div class="response-box" id="response-box">
             {{ llm_response if llm_response else "LLM responses will appear here..." }}
         </div>
 
-        <form method="POST" id="prompt-form">
-
-            <!-- This stores the time when the user clicks Send -->
-            <input
-                type="hidden"
-                name="client_submit_started_at_ms"
-                id="client-submit-started-at-ms">
+        <form id="prompt-form">
 
             <div class="prompt-label">Prompt</div>
 
             <textarea
                 class="prompt-box"
                 name="prompt"
+                id="prompt-input"
                 placeholder="Enter your prompt here..."
                 required></textarea>
 
@@ -46,16 +42,60 @@
 
         <script>
             const form = document.getElementById("prompt-form");
-            const startedAtInput = document.getElementById("client-submit-started-at-ms");
+            const promptInput = document.getElementById("prompt-input");
             const sendButton = document.getElementById("send-button");
+            const responseBox = document.getElementById("response-box");
 
-            form.addEventListener("submit", function () {
-                // Save the current browser time in milliseconds
-                startedAtInput.value = Date.now().toString();
+            form.addEventListener("submit", async function (event) {
+                event.preventDefault();
 
-                // Give the user instant feedback
+                const prompt = promptInput.value.trim();
+
+                if (!prompt) {
+                    return;
+                }
+
+                // This happens instantly when Send is clicked
                 sendButton.disabled = true;
                 sendButton.textContent = "Sending...";
+                responseBox.textContent = "Thinking...";
+
+                const startedAt = Date.now();
+
+                try {
+                    const response = await fetch("http://127.0.0.1:8080/chat", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "X-Client-Submit-Started-At-Ms": startedAt.toString()
+                        },
+                        body: JSON.stringify({
+                            prompt: prompt,
+                            max_tokens: 512
+                        })
+                    });
+
+                    if (!response.ok) {
+                        const errorText = await response.text();
+
+                        responseBox.textContent =
+                            "Request failed.\n\n" +
+                            "Status: " + response.status + "\n\n" +
+                            errorText;
+
+                        return;
+                    }
+
+                    const data = await response.json();
+
+                    responseBox.textContent = data.text;
+
+                } catch (error) {
+                    responseBox.textContent = "Network error. Please try again.";
+                } finally {
+                    sendButton.disabled = false;
+                    sendButton.textContent = "Send";
+                }
             });
         </script>
 
