@@ -4,6 +4,7 @@ import time
 from typing import Final
 
 from fastapi import FastAPI, HTTPException, Response, Request
+from fastapi.responses import StreamingResponse
 
 #allows Flask origin:   http://127.0.0.1:5000 & FastAPI API origin:  http://127.0.0.1:8080 share resource
 from fastapi.middleware.cors import CORSMiddleware 
@@ -39,11 +40,16 @@ print("provider setttings is \n")
 print(settings.llm_provider)
 
 # Initialize provider once
-if settings.llm_provider == "openai":
-    _provider = OpenAIProvider()
+if settings.llm_provider != "dummy": #e.g.: it is "openai", "waterdip"
+
+    if settings.llm_provider == "waterdip":
+        pass #will train the waterdip model. waterdipAIProvider Class should implement stream_chat().
+    else:
+        _provider = OpenAIProvider() #OpenAIProvider Class Implements stream_chat().
+
     _provider_model = _provider.model or "openai"
-else:
-    _provider = None
+else: #it is dummy. No provider model is available
+    _provider = None #dummy
     _provider_model = settings.model_name  # "dummy-llm"
 
 def _validate_chat(req: ChatRequest) -> None:
@@ -115,12 +121,13 @@ async def chat(req: ChatRequest, request: Request) -> ChatResponse:
             ) * 1000.0
 
             print(
-                f"OpenAI Provider Latency: "
+                f"OpenAI Provider Latency: " #consider using "Provider Latency" (to accomodate waterdip model)
                 f"{provider_latency_ms:.2f} ms"
             )
 
             model_name = _provider_model
-
+            
+            #  Consider elif: for waterdip custom model or consider if-block changed to settings.llm_provider != "dummy"
         else:
             text = req.prompt[: req.max_tokens]
             model_name = settings.model_name
@@ -157,6 +164,29 @@ async def chat(req: ChatRequest, request: Request) -> ChatResponse:
             code
         ).inc()
 
+
+@app.post("/chat/stream")
+async def chat_stream(req: ChatRequest):
+    _validate_chat(req)
+
+    async def generate():
+        if settings.llm_provider == "openai":
+            assert _provider is not None
+
+            async for chunk in _provider.stream_chat(
+                req.prompt,
+                req.max_tokens,
+            ):
+                yield chunk
+
+        #  Consider elif: for waterdip custom model or consider if-block changed to settings.llm_provider != "dummy"
+        else:
+            yield req.prompt[: req.max_tokens]
+
+    return StreamingResponse(
+        generate(),
+        media_type="text/plain",
+    )
 
 @app.post("/embed", response_model=EmbedResponse)
 async def embed(req: EmbedRequest) -> EmbedResponse:

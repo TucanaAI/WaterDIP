@@ -14,6 +14,7 @@ website/.vscode/
 
 # Environment variables
 .env
+genai-microservice/.env
 
 #Old Python files
 genai-microservice/app/old_main.py

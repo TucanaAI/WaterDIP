@@ -55,15 +55,14 @@
                     return;
                 }
 
-                // This happens instantly when Send is clicked
                 sendButton.disabled = true;
                 sendButton.textContent = "Sending...";
-                responseBox.textContent = "Thinking...";
+                responseBox.textContent = "";
 
                 const startedAt = Date.now();
 
                 try {
-                    const response = await fetch("http://127.0.0.1:8080/chat", {
+                    const response = await fetch("http://127.0.0.1:8080/chat/stream", {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
@@ -86,15 +85,30 @@
                         return;
                     }
 
-                    const data = await response.json();
+                    const reader = response.body.getReader();
+                    const decoder = new TextDecoder();
 
-                    responseBox.textContent = data.text;
+                    while (true) {
+                        const { value, done } = await reader.read();
+
+                        if (done) {
+                            break;
+                        }
+
+                        const chunk = decoder.decode(value);
+                        responseBox.textContent += chunk;
+                    }
+
+                    // Response completed successfully
+                    promptInput.value = "";
+                    promptInput.focus();
 
                 } catch (error) {
                     responseBox.textContent = "Network error. Please try again.";
                 } finally {
                     sendButton.disabled = false;
                     sendButton.textContent = "Send";
+                    promptInput.readOnly = false;
                 }
             });
         </script>
