@@ -1,0 +1,21 @@
+from __future__ import annotations
+
+from fastapi.testclient import TestClient
+
+from app.main import app
+
+client = TestClient(app)
+
+
+def test_healthz() -> None:
+    response = client.get("/healthz")
+
+    assert response.status_code == 200
+    assert response.json()["status"] == "healthy"
+
+
+def test_metrics() -> None:
+    response = client.get("/metrics")
+
+    assert response.status_code == 200
+    assert "requests_total" in response.text
