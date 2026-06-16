@@ -17,7 +17,8 @@ def test_chat_basic() -> None:
 
     data = response.json()
 
-    assert "hello" in data["text"]
+    assert isinstance(data["text"], str) #tests Open AI Model for now.
+    assert len(data["text"]) > 0
     assert data["input_tokens"] > 0
     assert data["output_tokens"] > 0
     assert isinstance(data["model"], str)
@@ -34,4 +35,5 @@ def test_embed_basic() -> None:
     data = response.json()
 
     assert len(data["vectors"]) == 2
-    assert data["dim"] == 3
+    assert data["dim"] > 0
+    assert isinstance(data["model"], str)
