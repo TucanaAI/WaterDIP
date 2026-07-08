@@ -1,0 +1,68 @@
+datasets:
+  opm_spe1:
+    name: "OPM SPE1 Benchmark"
+    source: "OPM Project"
+    category: "simulation"
+    license: "open"
+    url: "https://raw.githubusercontent.com/OPM/opm-data/master/spe1/SPE1CASE1.DATA"
+    output_subdir: "opm/spe1"
+    filename: "SPE1CASE1.DATA"
+    file_types:
+      - eclipse_deck
+    enabled: true
+
+  opm_spe9:
+    name: "OPM SPE9 Benchmark"
+    source: "OPM Project"
+    category: "simulation"
+    license: "open"
+    url: "https://raw.githubusercontent.com/OPM/opm-data/master/spe9/SPE9.DATA"
+    output_subdir: "opm/spe9"
+    filename: "SPE9.DATA"
+    file_types:
+      - eclipse_deck
+    enabled: true
+
+  volve_placeholder:
+    name: "Volve Data Village"
+    source: "Equinor"
+    category: "field_data"
+    license: "requires_access"
+    url: "https://www.equinor.com/energy/volve-data-sharing"
+    output_subdir: "volve"
+    filename: null
+    file_types:
+      - pdf
+      - las
+      - csv
+      - xlsx
+      - eclipse_deck
+    enabled: false
+
+  kgs_placeholder:
+    name: "Kansas Geological Survey Petroleum Data"
+    source: "Kansas Geological Survey"
+    category: "well_logs_core"
+    license: "public"
+    url: "https://www.kgs.ku.edu/PRS/petroDB.html"
+    output_subdir: "kgs"
+    filename: null
+    file_types:
+      - las
+      - pdf
+      - csv
+    enabled: false
+
+  nlog_placeholder:
+    name: "NLOG Netherlands Subsurface Data"
+    source: "NLOG"
+    category: "subsurface"
+    license: "public"
+    url: "https://www.nlog.nl/en/data"
+    output_subdir: "nlog"
+    filename: null
+    file_types:
+      - las
+      - pdf
+      - csv
+    enabled: false

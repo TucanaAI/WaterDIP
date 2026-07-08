@@ -4,9 +4,31 @@ flask-venv/
 venv/
 
 # Python cache
+
+*.py[cod]
+
 __pycache__/
 website/__pycache__/
-*.py[cod]
+tools/__pycache__/
+
+apps/api/app/__pycache__/
+
+apps/api/app/api/__pycache__/
+apps/api/app/data_platform/__pycache__/
+apps/api/app/observability/__pycache__/
+apps/api/app/providers/__pycache__/
+apps/api/app/reservoir/__pycache__/
+apps/api/app/tests/__pycache__/
+
+apps/api/app/data_platform/connectors/__pycache__/
+apps/api/app/data_platform/inventory/__pycache__/
+apps/api/app/data_platform/pipelines/__pycache__/
+apps/api/app/data_platform/registry/__pycache__/
+
+
+
+#Pytest cache
+.pytest_cache/
 
 # VS Code
 .vscode/

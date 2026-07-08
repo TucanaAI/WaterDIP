@@ -1,94 +1,322 @@
 # WaterDIP
 
-**WaterDIP** is a Production Decline and Water Breakthrough Decision Intelligence Platform.
+> **Cloud-native Generative AI & ML Platform for Reservoir Engineering Decision Intelligence**
 
-An end-to-end ML Platform Assistant designed to support production analytics, decline curve analysis, water breakthrough monitoring, and intelligent decision-making workflows across energy operations.
+WaterDIP is an end-to-end AI platform for building intelligent reservoir engineering applications.
+
+The platform combines Retrieval-Augmented Generation (RAG), production engineering analytics, cloud-native data engineering, and MLOps to support technical decision-making across oil & gas operations.
+
+Unlike traditional reservoir engineering software, WaterDIP is being designed as an extensible AI platform capable of ingesting heterogeneous petroleum engineering datasets, constructing engineering knowledge graphs, and serving domain-aware LLM applications at scale.
 
 ---
 
-## Local Development Test Run
+# Vision
 
-### Prerequisites
+WaterDIP aims to become an enterprise AI platform capable of:
 
-* Windows environment
-* Python installed and available on `PATH`
+- Reservoir Engineering RAG
+- Production Surveillance
+- Decline Curve Analysis
+- Water Breakthrough Diagnostics
+- Injector–Producer Connectivity Analysis
+- Reservoir Knowledge Graphs
+- AI-assisted Engineering Reports
+- Cloud-native Model Serving
+- MLOps & Continuous Evaluation
 
-### Start the Application
+---
 
-- Navigate to the project root directory (WaterDIP), then change directory to the FAST-API backend directory.
+# Current Platform Architecture
+
+```
+                    Public Datasets
+      (Databricks • SPE • OPM • KGS • NLOG)
+                         │
+                         ▼
+                Data Platform Connectors
+                         │
+       ┌─────────────────┼──────────────────┐
+       │                 │                  │
+ Local Filesystem   Amazon S3      Databricks Marketplace
+       │                 │                  │
+       └─────────────────┴──────────────────┘
+                         │
+                         ▼
+                 WaterDIP Data Platform
+                         │
+      Inventory → Parsing → Metadata Extraction
+                         │
+                         ▼
+              Engineering Data Standardisation
+                         │
+                         ▼
+                  Chunking & Embeddings
+                         │
+               ┌─────────┴─────────┐
+               │                   │
+          Qdrant / pgvector      Neo4j
+               │                   │
+               └─────────┬─────────┘
+                         ▼
+               WaterDIP RAG Platform
+                         │
+          FastAPI • OpenAI • vLLM • WaterDIP
+                         │
+                         ▼
+                 Reservoir Intelligence APIs
+```
+
+---
+
+# Repository Structure
+
+```
+WaterDIP/
+
+apps/
+    api/
+    web/
+
+packages/
+    waterdip-core/
+    waterdip-models/
+
+data/
+    raw/
+    processed/
+    registry/
+
+docs/
+
+infra/
+    docker/
+    helm/
+    k8s/
+    terraform/
+
+reports/
+
+tools/
+```
+
+---
+
+# Major Components
+
+## AI Platform
+
+- FastAPI
+- Provider abstraction
+- Streaming LLM inference
+- OpenAI integration
+- Future WaterDIP foundation model
+
+---
+
+## Data Platform
+
+Current development:
+
+- Dataset registry
+- Connector framework
+- File inventory
+- Engineering parsers
+
+Planned:
+
+- Databricks Marketplace connector
+- Amazon S3 connector
+- Azure Blob connector
+- HTTP connector
+- Local filesystem connector
+
+---
+
+## Reservoir Engineering
+
+Current roadmap:
+
+- Decline Curve Analysis
+- Water Cut Analytics
+- Water Breakthrough Detection
+- Injector–Producer Connectivity
+- Reservoir Recommendations
+
+---
+
+## Retrieval-Augmented Generation
+
+Current roadmap:
+
+- Engineering document ingestion
+- PDF parsing
+- LAS parsing
+- CSV & Excel parsing
+- Metadata extraction
+- Chunking
+- Embeddings
+- Qdrant
+- Neo4j
+- Engineering citations
+
+---
+
+## MLOps
+
+Current roadmap:
+
+- MLflow
+- Kubernetes
+- KServe
+- vLLM
+- OpenTelemetry
+- Prometheus
+- Grafana
+- AWS EKS
+
+---
+
+# Technology Stack
+
+## AI
+
+- OpenAI
+- vLLM (planned)
+- WaterDIP Models (planned)
+
+## Backend
+
+- FastAPI
+- Flask
+- Pydantic
+
+## Data Platform
+
+- Amazon S3
+- PostgreSQL
+- Qdrant
+- Neo4j
+
+## Cloud
+
+- AWS
+- Docker
+- Kubernetes
+- Helm
+- Terraform
+
+## Observability
+
+- Prometheus
+- Grafana
+- OpenTelemetry
+
+---
+
+# Current Development Status
+
+## Completed
+
+- Modular FastAPI platform architecture
+- Provider abstraction
+- Streaming LLM inference
+- Async API inference
+- Load testing framework
+- Prometheus metrics
+- Structured logging
+- Flask demonstration frontend
+- Repository refactor into platform architecture
+- Initial Data Platform package
+- AWS account & S3 integration
+- Initial public dataset acquisition
+
+---
+
+## In Progress
+
+- Connector framework
+- Amazon S3 connector
+- Databricks Marketplace connector
+- Dataset registry
+- Engineering data ingestion pipeline
+
+---
+
+## Planned
+
+- LAS parser
+- Reservoir report parser
+- Engineering metadata extraction
+- Qdrant integration
+- Neo4j knowledge graph
+- Reservoir Engineering RAG
+- WaterDIP domain model
+- Kubernetes deployment
+- AWS EKS deployment
+- MLflow
+- KServe
+- Production evaluation pipeline
+
+---
+
+# Running the Platform
+
+## Create virtual environment
 
 ```powershell
-PS C:\Users\Harrison.Obidinnu\WaterDIP> cd genai-microservice
+py -3.11 -m venv .venv
+
+.\.venv\Scripts\Activate.ps1
 ```
 
-- Activate the backend directory and start-up a new FAST-API backend process:
+---
+
+## Install dependencies
 
 ```powershell
-PS C:\Users\Harrison.Obidinnu\WaterDIP\genai-microservice> .venv\Scripts\activate
-(.venv) PS C:\Users\Harrison.Obidinnu\WaterDIP\genai-microservice> uvicorn app.main:app --reload --host 127.0.0.1 --port 8080    
+pip install -r requirements.txt
 ```
 
+---
 
-- While the backend process is active, spawn up a new shell process (which starts again at the project root) for the Flask Frontend.
-
-- Confirm that .venv is deactivated (if shell is configured to activate at start-up by default)
+## Start FastAPI
 
 ```powershell
-(.venv) PS C:\Users\Harrison.Obidinnu\WaterDIP> deactivate
+uvicorn apps.api.app.main:app --reload --host 127.0.0.1 --port 8080
 ```
 
-- Start the flask application from the shell:
+---
+
+## Start Flask frontend
 
 ```powershell
-PS C:\Users\Harrison.Obidinnu\WaterDIP> python llm.py
+python apps/web/llm.py
 ```
 
-Expected startup output:
+---
 
-```text
-instance path is ... C:\Users\Harrison.Obidinnu\WaterDIP\instance
-Windows automatically sets python path.
-finished setting project and python paths
-/app/llm
-platform name is ... CCLNG-14062129
-ensured database tables exist in vLLM_App.db
-has_user_table is ...True
-has_note_table is ...True
- * Serving Flask app 'website'
- * Debug mode: on
- * Running on http://127.0.0.1:5000
+Open:
+
 ```
-
-### Access the Application
-
-Open your browser and navigate to:
-
-```text
 http://127.0.0.1:5000
 ```
 
-### Verify LLM Demo Page
-
-Navigate to:
-
-```text
-http://127.0.0.1:5000/app/llm
-```
-
-Expected log output:
-
-```text
-running LLM demo page
-root path is ...C:\Users\Harrison.Obidinnu\WaterDIP\website
-current working directory is C:\Users\Harrison.Obidinnu\WaterDIP
-I'm in ready_for_upload
-127.0.0.1 - - [timestamp] "GET /app/llm HTTP/1.1" 200 -
-```
-
-A successful `HTTP 200` response confirms that the local development environment is functioning correctly.
-
 ---
 
-## Status
+# Long-term Goal
 
-Initial repository bootstrap and local development validation.
+WaterDIP is being developed as a production-ready AI Platform demonstrating modern Generative AI, Data Platform Engineering, and MLOps practices for large-scale engineering workloads.
+
+The project serves as a practical implementation of enterprise-grade AI infrastructure spanning cloud-native data ingestion, retrieval-augmented generation, knowledge graphs, model serving, observability, and production deployment.
+
+
+| Phase                     | Status |
+| ------------------------- | ------ |
+| Platform Architecture     | ✅      |
+| Data Platform             | 🚧     |
+| Connectors                | 🚧     |
+| Engineering Parsers       | ⏳      |
+| RAG                       | ⏳      |
+| Knowledge Graph           | ⏳      |
+| MLOps                     | ⏳      |
+| WaterDIP Foundation Model | ⏳      |
