@@ -1,69 +1,85 @@
 # WaterDIP
 
-> **Cloud-native Generative AI & ML Platform for Reservoir Engineering Decision Intelligence**
+> **Cloud-native Generative AI Platform for Reservoir Water Management Decision Intelligence**
 
-WaterDIP is an end-to-end AI platform for building intelligent reservoir engineering applications.
+WaterDIP is an end-to-end Generative AI platform for reservoir engineering, petroleum data engineering, Retrieval-Augmented Generation (RAG), and engineering decision intelligence.
 
-The platform combines Retrieval-Augmented Generation (RAG), production engineering analytics, cloud-native data engineering, and MLOps to support technical decision-making across oil & gas operations.
-
-Unlike traditional reservoir engineering software, WaterDIP is being designed as an extensible AI platform capable of ingesting heterogeneous petroleum engineering datasets, constructing engineering knowledge graphs, and serving domain-aware LLM applications at scale.
+The platform combines cloud-native data engineering, engineering knowledge extraction, vector search, knowledge graphs, and Large Language Models to build AI assistants capable of supporting reservoir engineering workflows from raw petroleum datasets through engineering recommendations.
 
 ---
 
 # Vision
 
-WaterDIP aims to become an enterprise AI platform capable of:
+WaterDIP is being developed as an enterprise AI platform for:
 
-- Reservoir Engineering RAG
+- Reservoir Engineering Decision Intelligence
+- Reservoir Water Management
+- Water Breakthrough Diagnostics
 - Production Surveillance
 - Decline Curve Analysis
-- Water Breakthrough Diagnostics
-- Injector–Producer Connectivity Analysis
+- Injector–Producer Connectivity
 - Reservoir Knowledge Graphs
+- Engineering Copilots
 - AI-assisted Engineering Reports
-- Cloud-native Model Serving
-- MLOps & Continuous Evaluation
+- Hybrid RAG
+- Multi-Agent Reservoir Engineering Workflows
 
 ---
 
-# Current Platform Architecture
+# Platform Architecture
 
 ```
-                    Public Datasets
-      (Databricks • SPE • OPM • KGS • NLOG)
-                         │
-                         ▼
-                Data Platform Connectors
-                         │
-       ┌─────────────────┼──────────────────┐
-       │                 │                  │
- Local Filesystem   Amazon S3      Databricks Marketplace
-       │                 │                  │
-       └─────────────────┴──────────────────┘
-                         │
-                         ▼
-                 WaterDIP Data Platform
-                         │
-      Inventory → Parsing → Metadata Extraction
-                         │
-                         ▼
-              Engineering Data Standardisation
-                         │
-                         ▼
-                  Chunking & Embeddings
-                         │
-               ┌─────────┴─────────┐
-               │                   │
-          Qdrant / pgvector      Neo4j
-               │                   │
-               └─────────┬─────────┘
-                         ▼
-               WaterDIP RAG Platform
-                         │
-          FastAPI • OpenAI • vLLM • WaterDIP
-                         │
-                         ▼
-                 Reservoir Intelligence APIs
+                    Public Petroleum Data Sources
+         (Databricks Marketplace • SPE • OPM • NPD • KGS)
+
+                              │
+                              ▼
+
+                    WaterDIP Connector Framework
+
+        Local FS      HTTP      Amazon S3      Azure Blob
+                              Databricks Marketplace
+
+                              │
+                              ▼
+
+                     WaterDIP Data Platform
+
+          Inventory
+               │
+        Dataset Registry
+               │
+         Metadata Extraction
+               │
+          Engineering Parsers
+               │
+       Standardised Engineering Data
+               │
+           Chunk Generation
+               │
+           Vector Embeddings
+               │
+      ┌─────────────────────────────┐
+      │                             │
+      ▼                             ▼
+
+   Qdrant / pgvector             Neo4j
+
+      │                             │
+      └──────────────┬──────────────┘
+                     ▼
+
+            WaterDIP Hybrid RAG Engine
+
+                     │
+
+      FastAPI • OpenAI • vLLM • Agents
+
+                     │
+
+                     ▼
+
+ Reservoir Water Management Decision Intelligence
 ```
 
 ---
@@ -74,25 +90,31 @@ WaterDIP aims to become an enterprise AI platform capable of:
 WaterDIP/
 
 apps/
-    api/
-    web/
+│
+├── api/
+├── web/
 
 packages/
-    waterdip-core/
-    waterdip-models/
+│
+├── waterdip-core/
+├── waterdip-models/
 
 data/
-    raw/
-    processed/
-    registry/
+│
+├── raw/
+├── processed/
+├── graph/
+├── registry/
+├── vector/
 
 docs/
 
 infra/
-    docker/
-    helm/
-    k8s/
-    terraform/
+│
+├── docker/
+├── helm/
+├── kubernetes/
+├── terraform/
 
 reports/
 
@@ -101,78 +123,131 @@ tools/
 
 ---
 
-# Major Components
+# Platform Components
 
 ## AI Platform
 
-- FastAPI
+Completed
+
+- FastAPI platform
 - Provider abstraction
 - Streaming LLM inference
+- Async inference
 - OpenAI integration
-- Future WaterDIP foundation model
+- Metrics & logging
+
+Planned
+
+- vLLM
+- WaterDIP domain models
+- Agent framework
+- Multi-agent orchestration
 
 ---
 
 ## Data Platform
 
-Current development:
+Completed
 
 - Dataset registry
 - Connector framework
-- File inventory
-- Engineering parsers
-
-Planned:
-
-- Databricks Marketplace connector
-- Amazon S3 connector
-- Azure Blob connector
-- HTTP connector
 - Local filesystem connector
+- HTTP connector
+- Amazon S3 connector
+- Databricks Marketplace connector
+- Azure Blob connector (foundation)
+- Automated Databricks → Amazon S3 transfer pipeline
+- Manifest generation
+- Engineering dataset inventory
+
+Current datasets ingested
+
+- Production
+- Reports
+- Technical
+- Geophysics
+- Eclipse
+- RMS
+- Drilling
+- Well Logs
+- Well Logs per Well
+- Seismic VSP
+- Geoscience Archive (~54 GB)
+- Seismic 4D (~330 GB)
+
+Pending
+
+- Seismic ST0202 (~1.17 TB)
+- Seismic ST10010 (~2.59 TB)
 
 ---
 
-## Reservoir Engineering
+## Engineering Parsers (Next Phase)
 
-Current roadmap:
-
-- Decline Curve Analysis
-- Water Cut Analytics
-- Water Breakthrough Detection
-- Injector–Producer Connectivity
-- Reservoir Recommendations
+- PDF parser
+- LAS parser
+- CSV parser
+- Excel parser
+- DOCX parser
+- ZIP archive parser
+- Seismic metadata extraction
+- Well metadata extraction
 
 ---
 
 ## Retrieval-Augmented Generation
 
-Current roadmap:
+Next Phase
 
-- Engineering document ingestion
-- PDF parsing
-- LAS parsing
-- CSV & Excel parsing
-- Metadata extraction
-- Chunking
-- Embeddings
-- Qdrant
-- Neo4j
-- Engineering citations
+- Engineering chunking
+- Metadata enrichment
+- OpenAI embeddings
+- Hybrid retrieval
+- Semantic search
+- Citation generation
+- Engineering context ranking
+
+---
+
+## Knowledge Graph
+
+Planned
+
+- Neo4j integration
+- Reservoir ontology
+- Well relationships
+- Completion relationships
+- Production history graph
+- Water injection graph
+
+---
+
+## Reservoir Intelligence
+
+Planned
+
+- Reservoir Engineering Copilot
+- Water Management Assistant
+- Water Breakthrough Diagnostics
+- Production optimisation
+- Injection optimisation
+- Engineering recommendations
 
 ---
 
 ## MLOps
 
-Current roadmap:
+Planned
 
 - MLflow
 - Kubernetes
+- Docker
 - KServe
-- vLLM
+- AWS EKS
+- GitHub Actions
 - OpenTelemetry
 - Prometheus
 - Grafana
-- AWS EKS
 
 ---
 
@@ -193,6 +268,7 @@ Current roadmap:
 ## Data Platform
 
 - Amazon S3
+- Databricks Marketplace
 - PostgreSQL
 - Qdrant
 - Neo4j
@@ -215,53 +291,69 @@ Current roadmap:
 
 # Current Development Status
 
-## Completed
+## Phase 1 — Platform Foundation ✅
 
-- Modular FastAPI platform architecture
-- Provider abstraction
-- Streaming LLM inference
-- Async API inference
-- Load testing framework
-- Prometheus metrics
-- Structured logging
-- Flask demonstration frontend
-- Repository refactor into platform architecture
-- Initial Data Platform package
-- AWS account & S3 integration
-- Initial public dataset acquisition
+- Modular architecture
+- FastAPI backend
+- LLM abstraction
+- Logging
+- Metrics
+- Repository restructuring
 
 ---
 
-## In Progress
+## Phase 2 — Data Platform ✅
 
+- Dataset registry
 - Connector framework
+- Local filesystem connector
+- HTTP connector
 - Amazon S3 connector
 - Databricks Marketplace connector
-- Dataset registry
-- Engineering data ingestion pipeline
+- Automated Databricks → Amazon S3 ingestion
+- Engineering dataset acquisition
+- Large-scale cloud data ingestion
 
 ---
 
-## Planned
+## Phase 3 — Engineering Intelligence 🚧
 
-- LAS parser
-- Reservoir report parser
-- Engineering metadata extraction
+Current work
+
+- Engineering parsers
+- Metadata extraction
+- Chunk generation
+- Embedding pipeline
+- Vector database integration
+
+---
+
+## Phase 4 — Hybrid RAG ⏳
+
+Upcoming
+
 - Qdrant integration
 - Neo4j knowledge graph
-- Reservoir Engineering RAG
-- WaterDIP domain model
-- Kubernetes deployment
-- AWS EKS deployment
-- MLflow
-- KServe
-- Production evaluation pipeline
+- Hybrid retrieval
+- Engineering citations
+- Context optimisation
+
+---
+
+## Phase 5 — Reservoir Decision Intelligence ⏳
+
+Upcoming
+
+- Reservoir Water Management AI Assistant
+- Reservoir Engineering Copilot
+- Engineering Agents
+- WaterDIP domain intelligence
 
 ---
 
 # Running the Platform
 
-## Create virtual environment
+## Create environment
 
 ```powershell
 py -3.11 -m venv .venv
@@ -271,7 +363,7 @@ py -3.11 -m venv .venv
 
 ---
 
-## Install dependencies
+## Install
 
 ```powershell
 pip install -r requirements.txt
@@ -279,7 +371,7 @@ pip install -r requirements.txt
 
 ---
 
-## Start FastAPI
+## Run FastAPI
 
 ```powershell
 uvicorn apps.api.app.main:app --reload --host 127.0.0.1 --port 8080
@@ -287,15 +379,13 @@ uvicorn apps.api.app.main:app --reload --host 127.0.0.1 --port 8080
 
 ---
 
-## Start Flask frontend
+## Run Flask UI
 
 ```powershell
 python apps/web/llm.py
 ```
 
----
-
-Open:
+Open
 
 ```
 http://127.0.0.1:5000
@@ -303,20 +393,30 @@ http://127.0.0.1:5000
 
 ---
 
+# Roadmap
+
+| Phase | Status |
+|---------|--------|
+| Platform Architecture | ✅ |
+| Data Platform | ✅ |
+| Dataset Registry | ✅ |
+| Connector Framework | ✅ |
+| Databricks Marketplace Integration | ✅ |
+| Amazon S3 Integration | ✅ |
+| Engineering Parsers | 🚧 |
+| Metadata Extraction | 🚧 |
+| Chunking Pipeline | 🚧 |
+| Embedding Pipeline | ⏳ |
+| Vector Database | ⏳ |
+| Knowledge Graph | ⏳ |
+| Hybrid RAG | ⏳ |
+| Reservoir Water Management AI Assistant | ⏳ |
+| Agentic Reservoir Intelligence | ⏳ |
+| MLOps | ⏳ |
+| WaterDIP Foundation Models | ⏳ |
+
+---
+
 # Long-term Goal
 
-WaterDIP is being developed as a production-ready AI Platform demonstrating modern Generative AI, Data Platform Engineering, and MLOps practices for large-scale engineering workloads.
-
-The project serves as a practical implementation of enterprise-grade AI infrastructure spanning cloud-native data ingestion, retrieval-augmented generation, knowledge graphs, model serving, observability, and production deployment.
-
-
-| Phase                     | Status |
-| ------------------------- | ------ |
-| Platform Architecture     | ✅      |
-| Data Platform             | 🚧     |
-| Connectors                | 🚧     |
-| Engineering Parsers       | ⏳      |
-| RAG                       | ⏳      |
-| Knowledge Graph           | ⏳      |
-| MLOps                     | ⏳      |
-| WaterDIP Foundation Model | ⏳      |
+WaterDIP is evolving into an enterprise-scale Reservoir Engineering Decision Intelligence platform that combines cloud-native petroleum data engineering, knowledge graphs, vector search, Retrieval-Augmented Generation, and AI agents to support reservoir water management, production optimisation, and engineering decision-making across the asset lifecycle.

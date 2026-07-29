@@ -1,34 +1,31 @@
 from __future__ import annotations
 
-from pathlib import Path
-
 from pydantic import BaseModel
+
+from app.data_platform.connectors.base import DatasetConnector
 
 
 class FileInventoryItem(BaseModel):
     path: str
     filename: str
     suffix: str
-    size_bytes: int
+    size_bytes: int | None
+    source: str
 
 
-def build_file_inventory(root: Path) -> list[FileInventoryItem]:
-    if not root.exists():
-        return []
+def build_file_inventory(
+    connector: DatasetConnector,
+    prefix: str = "",
+) -> list[FileInventoryItem]:
+    objects = connector.list_files(prefix)
 
-    items: list[FileInventoryItem] = []
-
-    for path in root.rglob("*"):
-        if not path.is_file():
-            continue
-
-        items.append(
-            FileInventoryItem(
-                path=str(path),
-                filename=path.name,
-                suffix=path.suffix.lower(),
-                size_bytes=path.stat().st_size,
-            )
+    return [
+        FileInventoryItem(
+            path=obj.path,
+            filename=obj.name,
+            suffix="." + obj.name.split(".")[-1].lower() if "." in obj.name else "",
+            size_bytes=obj.size_bytes,
+            source=obj.source,
         )
-
-    return items
+        for obj in objects
+    ]

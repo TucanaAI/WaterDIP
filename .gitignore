@@ -12,6 +12,7 @@ website/__pycache__/
 tools/__pycache__/
 
 apps/api/app/__pycache__/
+apps/web/website/__pycache__/
 
 apps/api/app/api/__pycache__/
 apps/api/app/data_platform/__pycache__/
