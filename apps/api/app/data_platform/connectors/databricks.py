@@ -8,7 +8,6 @@ from databricks.sdk import WorkspaceClient
 from app.config import settings
 from app.data_platform.connectors.base import DatasetConnector, DatasetObject
 
-
 @dataclass(frozen=True)
 class DatabricksTransferRequest:
     dataset_id: str
