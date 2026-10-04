@@ -3,11 +3,11 @@ flask-venv/
 .venv/
 venv/
 
+
 # Python cache
-
 *.py[cod]
-
 __pycache__/
+
 website/__pycache__/
 tools/__pycache__/
 
@@ -26,21 +26,42 @@ apps/api/app/data_platform/inventory/__pycache__/
 apps/api/app/data_platform/pipelines/__pycache__/
 apps/api/app/data_platform/registry/__pycache__/
 
+# Engineering parsing framework — Parts 1–5
+apps/api/app/data_platform/parsing/__pycache__/
+apps/api/app/data_platform/parsing/extractors/__pycache__/
+apps/api/app/data_platform/parsing/models/__pycache__/
+apps/api/app/data_platform/parsing/well_logs/__pycache__/
+apps/api/app/data_platform/parsing/chunking/__pycache__/
+
+# Tests
+tests/__pycache__/
+tests/data_platform/__pycache__/
+tests/data_platform/parsing/__pycache__/
+
+# Part 6 embedding infrastructure
+# Safe to add now so caches remain ignored as the package is implemented.
+apps/api/app/data_platform/embeddings/__pycache__/
+apps/api/app/data_platform/embeddings/providers/__pycache__/
+tests/data_platform/embeddings/__pycache__/
 
 
-#Pytest cache
+# Pytest cache
 .pytest_cache/
+
 
 # VS Code
 .vscode/
 website/.vscode/
 
+
 # Environment variables
 .env
 genai-microservice/.env
 
-#Old Python files
+
+# Old Python files
 genai-microservice/app/old_main.py
+
 
 # Old HTML files
 website/templates/demo_backup.html
@@ -49,8 +70,10 @@ website/templates/demo_backup.html
 # Databases
 *.db
 
+
 # Test reports
 reports/
+
 
 # OS files
 .DS_Store
